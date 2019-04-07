@@ -10,6 +10,7 @@ public class RadixSort {
             num[i] = (int)(Math.random()*1000);
         }
         radixSort(num, 1000);
+        System.out.println("the result is order: " + isSorted(num));
         for (int i=0; i<num.length; i++) {
             System.out.print(num[i]+ " ");
         }
@@ -17,10 +18,9 @@ public class RadixSort {
 
     private static void radixSort(int[] array, int d) {
         int n = 1;//代表位数对应的数:1、10、100
-        int k = 0;//保存每一位排序后的结果用于下一位的排序输入
         int length = array.length;
         int[][] bucket = new int[10][length];//排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
-        int[] order = new int[length];//用于保存每个桶里有多少个数字
+        int[] order = new int[10];//用于保存每个桶里有多少个数字,一共有10个桶
         while (n<d) {
             for (int num:array) {
                 //将数组array每个数字放在相应的桶里
@@ -28,7 +28,8 @@ public class RadixSort {
                 bucket[digit][order[digit]]=num;
                 order[digit]++;
             }
-            for (int i=0; i<length; i++) {
+            int k=0;//回写到原数组时，原数组下标索引
+            for (int i=0; i<10; i++) {
                 //将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
                 if(order[i]!=0) {
                     //这个桶里有数据，从上到下排序并将数据保存到原数组中
@@ -40,7 +41,15 @@ public class RadixSort {
                 order[i]=0;//将桶里计数器清零，用于下一次位排序
             }
             n*=10;
-            k=0;//将k置0，用于下一轮保存位排序结果
         }
+    }
+
+    private static boolean isSorted(int[] a) {
+        for (int i=1; i<a.length; i++) {
+            if (a[i]<a[i-1]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
