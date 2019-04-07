@@ -36,6 +36,14 @@ public class Heap {
         }
     }
 
+    //上浮算法
+    private static void swim(Comparable[] a, int k) {
+        while (k>0 && less(a[(k-1)/2], a[k])) {
+            exch(a, (k-1)/2, k);
+            k = (k-1)/2;
+        }
+    }
+
     private static void sink(Comparable[] a, int k, int N) {
         /**
          *N为现在堆所需要使用的实际长度，而k而插入的函数的起始位置，a是传入的数组
